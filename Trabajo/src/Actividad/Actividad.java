@@ -1,6 +1,8 @@
 package Actividad;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class Actividad {
 
 	String nombre;	
@@ -19,15 +21,30 @@ public class Actividad {
 	public void setPromedio(double promedio){
 		this.promedio=promedio;	
 	}
+	
+	public double getPromedio() {
+		return this.promedio;
+	}
 
 	// ingresar las notas de cada alumno		
 	public void setNotas(int m){
 		array=new double [m];
-		System.out.println("Ingrese las notas");
 	
 		for(int i=0;i<m;i++){
-			System.out.print("Materia Nº"+(i+1)+" :");
-			array[i]=entrada.nextDouble();
+			do{
+				try {
+					array[i] = Double.parseDouble(JOptionPane.showInputDialog(null, "Ingrese la nota del estudiante", "Materia Nº" + (i+1), JOptionPane.INFORMATION_MESSAGE));
+				
+					if(array[i] < 0 || array[i]>20) {
+						JOptionPane.showMessageDialog(null, "El numero ingresado no está en el rango permitido [de 0 a 20]", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
+					}
+				}catch(Exception exception){
+					JOptionPane.showMessageDialog(null, "No ha ingresado un valor válido, vuelvalo a intentar", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
+					
+				}
+			}while(array[i] < 0 || array[i]>20);
+			
+			
 		}	
 	}
 
