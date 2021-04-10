@@ -22,6 +22,14 @@ public class Actividad {
 		this.promedio=promedio;	
 	}
 	
+	public String getName() {
+		return nombre; 
+	}
+	
+	public String getLastName() {
+		return apellido; 
+	}
+	
 	public double getPromedio() {
 		return this.promedio;
 	}
