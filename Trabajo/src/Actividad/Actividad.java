@@ -1,5 +1,4 @@
 package Actividad;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -9,8 +8,6 @@ public class Actividad {
 	String apellido;
 	double promedio;
 	double array [];
-
-	Scanner entrada= new Scanner(System.in);
 
 	//constructor para el nombre y apellido
 	public Actividad (String nombre, String apellido){

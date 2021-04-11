@@ -6,14 +6,13 @@ public class Principal {
 
 	public static void main(String args[]){
 		int n=0,m=0;
-		double matriz[][];
 		double promedioMateria[];
 		double promedioSeccion = 0;
 		Scanner entrada= new Scanner(System.in);
 	
 		//Test variables
-		n=1;
-		m=1;
+		n=3;
+		m=3;
 		
 		while(n<=0 || m<=0) {
 			try {
@@ -43,7 +42,7 @@ public class Principal {
 		}
 		
 		Actividad estudiantes[]=new Actividad[n];
-	
+		
 		
 		for (int i=0; i<n; i++){
 			String nombre, apellido;
@@ -59,34 +58,12 @@ public class Principal {
 			//JOptionPane.showMessageDialog(null, "El promedio del estudiante es:" +estudiantes[i].PromedioNotas(m), "Sistema - Estudiante: Nº" + (i+1), JOptionPane.INFORMATION_MESSAGE);
 		}
 		
+		Interfaces app = new Interfaces(n,m,estudiantes);
+		app.setVisible(true);
+
 		
 		
-		//rellenar matriz 
-		matriz = new double[n][m];
-			for (int i=0; i<n; i++){
-				for (int j=0; j<m; j++){
-					matriz[i][j]=estudiantes[i].Notas(j);	    
-				} 
-		}	
 		
-		Interfaces panel = new Interfaces(n,m,estudiantes);
-		
-		panel.setVisible(true);
-		
-		//calcular promedio por materia
-		//System.out.println("Promedio por Materia");
-		promedioMateria=new double [m];
-		for(int i=0; i<m;i++){
-			double suma=0;
-			for (int j=0; j<n;j++){
-				suma += matriz[j][i];
-				} 
-			suma   /=n;	
-			promedioMateria[i]=suma;
-			
-			//System.out.println("Materia Nº"+(i+1)+" :" +promedioMateria[i]);
-		}
-	
   	   //promedio de la Seccion
 		for(int i=0;i<n;i++){
 			promedioSeccion+=estudiantes[i].promedio;
