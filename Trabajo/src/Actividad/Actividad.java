@@ -1,5 +1,6 @@
 package Actividad;
-import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 public class Actividad {
 
@@ -7,8 +8,6 @@ public class Actividad {
 	String apellido;
 	double promedio;
 	double array [];
-
-	Scanner entrada= new Scanner(System.in);
 
 	//constructor para el nombre y apellido
 	public Actividad (String nombre, String apellido){
@@ -19,15 +18,38 @@ public class Actividad {
 	public void setPromedio(double promedio){
 		this.promedio=promedio;	
 	}
+	
+	public String getName() {
+		return nombre; 
+	}
+	
+	public String getLastName() {
+		return apellido; 
+	}
+	
+	public double getPromedio() {
+		return this.promedio;
+	}
 
 	// ingresar las notas de cada alumno		
 	public void setNotas(int m){
 		array=new double [m];
-		System.out.println("Ingrese las notas");
 	
 		for(int i=0;i<m;i++){
-			System.out.print("Materia Nº"+(i+1)+" :");
-			array[i]=entrada.nextDouble();
+			do{
+				try {
+					array[i] = Double.parseDouble(JOptionPane.showInputDialog(null, "Ingrese la nota del estudiante", "Materia Nº" + (i+1), JOptionPane.INFORMATION_MESSAGE));
+				
+					if(array[i] < 0 || array[i]>20) {
+						JOptionPane.showMessageDialog(null, "El numero ingresado no está en el rango permitido [de 0 a 20]", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
+					}
+				}catch(Exception exception){
+					JOptionPane.showMessageDialog(null, "Ha presionado cancelar o insertado un caracter invalido, el programa se detendrá.", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}while(array[i] < 0 || array[i]>20);
+			
+			
 		}	
 	}
 
