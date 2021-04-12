@@ -44,8 +44,8 @@ public class Actividad {
 						JOptionPane.showMessageDialog(null, "El numero ingresado no está en el rango permitido [de 0 a 20]", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
 					}
 				}catch(Exception exception){
-					JOptionPane.showMessageDialog(null, "No ha ingresado un valor válido, vuelvalo a intentar", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
-					
+					JOptionPane.showMessageDialog(null, "Ha presionado cancelar o insertado un caracter invalido, el programa se detendrá.", "ERROR - DATOS INVALIDOS", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 			}while(array[i] < 0 || array[i]>20);
 			

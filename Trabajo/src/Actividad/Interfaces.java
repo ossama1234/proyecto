@@ -13,18 +13,13 @@ public class Interfaces extends JFrame implements ActionListener{
 		this.m = m;
 		this.students = students;		
                 
-		createPrincipalPanel();
-		
-		createCoursePanel();
-        fillCourseTable();
-		
-		createStudentPanel();
-        fillStudentTable();
-                        		           	     			
-		add(principalPanel);
-        add(studentPanel);
-        add(coursePanel);
-        
+		createPrincipalPanel();				
+                   		           	     			
+		add(principalPanel);         
+	}
+	
+	public void showApp() {
+		setVisible(true);
 	}
 	
 	private void createPrincipalPanel() {
@@ -67,37 +62,44 @@ public class Interfaces extends JFrame implements ActionListener{
 		studentPanel.add(studentOrderButton);
 					   
         StudentScrollPane = new JScrollPane();
-        StudentScrollPane.setBounds(0,0, 500, 300);
+        StudentScrollPane.setBounds(200,50, 500, 300);
         studentPanel.add(StudentScrollPane);
+           	   	        
+        avgSection = 0;
+ 		for(int i=0;i<n;i++){
+ 			avgSection+=students[i].promedio;
+ 		}
+ 		
+ 		avgSectionLabel = new JLabel("El Promedio de la sección es: " + (avgSection/n));
+ 		avgSectionLabel.setBounds(350,5, 300, 50);
+ 	    studentPanel.add(avgSectionLabel);		
 	}
 	
 	private void fillStudentTable() {
-			
-	        
+			        
 	       studentDataModel = new DefaultTableModel(null, studentColumn);
 
 	       studentTable = new JTable(studentDataModel);
 	        
 	       StudentScrollPane.setViewportView(studentTable);
 	      
-	       for (int i = 0; i < n; i++) {
-	            
+	       for (int i = 0; i < n; i++) { 
 	            Object[] aux = { students[i].getName(), students[i].getLastName(), students[i].getPromedio() };
 	            studentDataModel.addRow(aux);
-	       }
-	        
+	       }     
 	}
 	
 	private void studentOrder() {
 		name = new String[n];
 		lastname = new String[n];
 		average= new double[n];
+		
 	     for(int i=0;i<n;i++){
 	    	 name[i]= students[i].getName();
 	    	 lastname[i] = students[i].getLastName();
 	    	 average[i]= students[i].getPromedio();
 		 }
-	     
+	    
 	     for(int i=0;i<n;i++){
 
 	    	 int pos= i;
@@ -110,20 +112,18 @@ public class Interfaces extends JFrame implements ActionListener{
 	    	 		name[pos]=name[pos-1];
 	    	 		lastname[pos]=lastname[pos-1];
 	    	 		       pos--;
-	    	 			}
+	    	 	}
 
 	    	 	average[pos]=aux;
 	    	 	name[pos]=aux1;
-	    	 	lastname[pos]=aux2;
-	    	 					    	 					
+	    	 	lastname[pos]=aux2;				    	 					
 	    	 }
 	     
 	     for(int i=0;i<n;i++){
 	    	 studentDataModel.removeRow(0);
 	    	 
 	    	 Object[] aux = { name[i], lastname[i], average[i] };
-	          studentDataModel.addRow(aux);
-	    	 
+	         studentDataModel.addRow(aux);
 	    }
 	}
 	
@@ -139,7 +139,7 @@ public class Interfaces extends JFrame implements ActionListener{
 		coursePanel.add(backCourseButton);
 			        
 	    coursesScrollPane = new JScrollPane();
-	    coursesScrollPane.setBounds(0,0, 500, 300);
+	    coursesScrollPane.setBounds(200,50, 500, 300);
 	    coursePanel.add(coursesScrollPane);
 	}
 	
@@ -152,17 +152,15 @@ public class Interfaces extends JFrame implements ActionListener{
 			} 
 		}
 		
-		promedioMateria=new double [m];
+		avgCourses=new double [m];
 		for(int i=0; i<m;i++){
 			double suma=0;
 			for (int j=0; j<n;j++){
 				suma += courses[j][i];
 			} 
 			suma   /=n;	
-			promedioMateria[i]=suma;		
+			avgCourses[i]=suma;		
 		}
-
-	    String[] courseColumn = { "Materías", "Promedio"};
 	        
 	    courseDataModel = new DefaultTableModel(null, courseColumn);
 
@@ -170,28 +168,33 @@ public class Interfaces extends JFrame implements ActionListener{
 	        
 	    coursesScrollPane.setViewportView(courseTable);
 	   	      
-	    for (int i = 0; i < m; i++) {
-	            
-	         Object[] aux = { "Materia Nº"+(i+1) ,promedioMateria[i]};
+	    for (int i = 0; i < m; i++) {       
+	         Object[] aux = { "Materia Nº"+(i+1) ,avgCourses[i]};
 	         courseDataModel.addRow(aux);
 	    }
-		
 	} 
 
-	
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == studentButton){
-            
+			createStudentPanel();
+	        fillStudentTable();
+	        
+	        add(studentPanel); 
+					
            studentPanel.setVisible(true);
            principalPanel.setVisible(false);
         }
 		
 		if(e.getSource() == courseButton){
-            
-			   coursePanel.setVisible(true);
-	           principalPanel.setVisible(false);
-	        }
+			createCoursePanel();
+			fillCourseTable();
+				
+			add(coursePanel);
+				
+			coursePanel.setVisible(true);
+	        principalPanel.setVisible(false);
+	    }
 		
 		if(e.getSource() == backCourseButton){
             
@@ -211,16 +214,19 @@ public class Interfaces extends JFrame implements ActionListener{
 	    }
 	}
 	
+	String[] courseColumn = { "Materías", "Promedio"};
 	String[] studentColumn = { "Nombre", "Apellido", "Promedio" };
 	private int n, m;
 	private String[] name,lastname;
 	private JScrollPane StudentScrollPane, coursesScrollPane;
 	private Actividad[] students;
-    private JButton studentButton,courseButton,backStudentButton,backCourseButton, studentOrderButton, courseOrderButton; 
+	private JLabel avgSectionLabel;
+    private JButton studentButton,courseButton,backStudentButton,backCourseButton, studentOrderButton; 
     private JPanel principalPanel,studentPanel,coursePanel;
     private JTable studentTable, courseTable;
     private DefaultTableModel studentDataModel, courseDataModel;
     private double courses[][], average[];
-    private double promedioMateria[];
-    
+    private double avgCourses[];
+    private double avgSection = 0;
+    private static final long serialVersionUID = 1L;
 }
